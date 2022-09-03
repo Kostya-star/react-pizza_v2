@@ -8,7 +8,8 @@ const PizzaBlock = ({title, imageUrl, price, sizes, types}) => {
     const [activeSize, setActiveSize] = React.useState(0)
     
     return (
-    <div className="pizza-block">
+      <div className='pizza-block-wrapper'>
+        <div className="pizza-block">
               <img
                 className="pizza-block__image"
                 src={imageUrl}
@@ -56,6 +57,7 @@ const PizzaBlock = ({title, imageUrl, price, sizes, types}) => {
                 </button>
               </div>
             </div>
+      </div>
   )
 }
 

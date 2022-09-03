@@ -17,10 +17,11 @@ const Home = () => {
         setPizzaItems(pizzasArray); 
         setIsLoaded(true);
       })
+      window.scroll(0, 0);
   }, []);
 
   return (
-    <>
+    <div className="container">
           <div className="content__top">
 
             <Categories/>
@@ -38,7 +39,7 @@ const Home = () => {
              }
 
           </div>
-    </>
+    </div>
   )
 }
 
