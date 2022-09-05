@@ -1,18 +1,27 @@
 import React from 'react';
 
-const Sort = () => {
-  const [isOpenList, setOpenList] = React.useState(false)
-  const [activeSortItem, setActiveSortItem] = React.useState(0)
-  const sortItems = ['популярности', 'цене', 'алфавиту']
+const Sort = ({ activeSortItem, setActiveSortItem }) => {
 
+  const sortItems = [
+                      {name: 'популярности (ASC)', sortProperty: 'rating'}, 
+                      {name: 'популярности (DESC)', sortProperty: '-rating'}, 
+
+                      {name: 'цене (ASC)', sortProperty: 'price'}, 
+                      {name: 'цене (DESC)', sortProperty: '-price'}, 
+
+                      {name: 'алфавиту (ASC)', sortProperty: 'title'},
+                      {name: 'алфавиту (DESC)', sortProperty: '-title'},
+
+                    ];
+  const [isOpenList, setOpenList] = React.useState(false);
 
   const onClickListItem = (index) => {
     setActiveSortItem(index);
-    setOpenList(false)
+    setOpenList(!isOpenList);
   }
 
   return (
-    <div className="sort">
+    <div className="sort"> 
               <div className="sort__label">
                 <svg
                   width="10"
@@ -27,17 +36,18 @@ const Sort = () => {
                   />
                 </svg>
                 <b>Сортировка по:</b>
-                <span onClick={() => setOpenList(!isOpenList)}>{sortItems[activeSortItem]}</span>
+                {/* <span onClick={() => setOpenList(!isOpenList)}>{sortItems[activeSortItem].name}</span> */}
+                <span onClick={() => setOpenList(!isOpenList)}>{activeSortItem.name}</span>
               </div>
 
                   { isOpenList &&
                     <div className="sort__popup">
                       <ul>
-                        {sortItems.map((name, index) =>  <li  
-                                                            onClick={() => onClickListItem(index)}
-                                                            className={activeSortItem === index ? 'active': ''}
-                                                            key={index}> {name} 
-                                                         </li>)}
+                        { sortItems.map((obj, index) =>  <li  
+                                                            onClick={() => onClickListItem(obj)}
+                                                            className={activeSortItem.sortProperty === obj.sortProperty ? 'active': ''}
+                                                            key={index}> {obj.name}
+                                                         </li>) }
                       </ul>
                     </div>                                                          
                   }
