@@ -13,6 +13,7 @@ const Sort = ({ activeSortItem, setActiveSortItem }) => {
                       {name: 'алфавиту (DESC)', sortProperty: '-title'},
 
                     ];
+
   const [isOpenList, setOpenList] = React.useState(false);
 
   const onClickListItem = (index) => {
@@ -36,7 +37,6 @@ const Sort = ({ activeSortItem, setActiveSortItem }) => {
                   />
                 </svg>
                 <b>Сортировка по:</b>
-                {/* <span onClick={() => setOpenList(!isOpenList)}>{sortItems[activeSortItem].name}</span> */}
                 <span onClick={() => setOpenList(!isOpenList)}>{activeSortItem.name}</span>
               </div>
 
