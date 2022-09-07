@@ -8,8 +8,6 @@ import Home from './components/pages/Home'
 import Cart from './components/pages/Cart'
 import NotFound from './components/pages/NotFound'
 
-import {Counter} from './redux/Counter'
-
 
 export const SearchContext = React.createContext()
 
@@ -17,7 +15,6 @@ const App = () => {
   const [searchValue, setSearchValue] = React.useState('');
 
   return ( <div className="wrapper">
-      <Counter/>
       <SearchContext.Provider value={{searchValue, setSearchValue}}>
       <Header searchValue={searchValue} setSearchValue={setSearchValue}/>
       <div className="content">
