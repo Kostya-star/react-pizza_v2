@@ -16,7 +16,7 @@ const App = () => {
 
   return ( <div className="wrapper">
       <SearchContext.Provider value={{searchValue, setSearchValue}}>
-      <Header searchValue={searchValue} setSearchValue={setSearchValue}/>
+      <Header />
       <div className="content">
           <Routes>
             <Route path='/' element={ <Home /> } />

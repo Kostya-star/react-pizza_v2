@@ -31,7 +31,7 @@ const Home = () => {
   //<Pagination/> STATE-------------------------------------------------------
   // const pageCondition = activeCategory > 0 ? 1 : '';
   // const [currentPage, setCurrentPage] = React.useState(1)
-
+  
   React.useEffect(() => {
     setIsLoaded(false);
 
