@@ -1,23 +1,29 @@
 import React from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 
-const Sort = ({ activeSortItem, setActiveSortItem }) => {
+import {setActiveSortItem} from '../redux/slices/filterSlice'
 
-  const sortItems = [
-                      {name: 'популярности (ASC)', sortProperty: 'rating'}, 
-                      {name: 'популярности (DESC)', sortProperty: '-rating'}, 
 
-                      {name: 'цене (ASC)', sortProperty: 'price'}, 
-                      {name: 'цене (DESC)', sortProperty: '-price'}, 
+const sortItems = [
+                    {name: 'популярности (ASC)', sortProperty: 'rating'}, 
+                    {name: 'популярности (DESC)', sortProperty: '-rating'}, 
 
-                      {name: 'алфавиту (ASC)', sortProperty: 'title'},
-                      {name: 'алфавиту (DESC)', sortProperty: '-title'},
+                    {name: 'цене (ASC)', sortProperty: 'price'}, 
+                    {name: 'цене (DESC)', sortProperty: '-price'}, 
 
-                    ];
+                    {name: 'алфавиту (ASC)', sortProperty: 'title'},
+                    {name: 'алфавиту (DESC)', sortProperty: '-title'},
+
+                  ];
+
+const Sort = () => {
+  const activeSortItem = useSelector(({filter}) => filter.activeSortItem);
+  const dispatch = useDispatch();
 
   const [isOpenList, setOpenList] = React.useState(false);
 
-  const onClickListItem = (index) => {
-    setActiveSortItem(index);
+  const onClickListItem = (obj) => {
+    dispatch(setActiveSortItem(obj));
     setOpenList(!isOpenList);
   }
 
