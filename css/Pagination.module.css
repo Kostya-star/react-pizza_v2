@@ -1,0 +1,35 @@
+.root {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+.root li {
+  display: inline-block;
+}
+
+.root a {
+  text-align: center;
+  width: 40px;
+  line-height: 38px;
+  height: 40px;
+  border: 1px solid #fe5f1e;
+  border-radius: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+  display: inline-block;
+  color: #fe5f1e;
+  background-color: white;
+}
+
+.root a:hover {
+  background-color: #fe5f1e;
+  color: white;
+}
+
+.root :global .selected a {
+  background-color: #fe5f1e;
+  color: white;
+}
+/*# sourceMappingURL=Pagination.module.css.map */

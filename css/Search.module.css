@@ -1,0 +1,40 @@
+.root {
+  position: relative;
+  left: -120px;
+}
+
+.root .input {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  width: 450px;
+  padding: 12px 50px;
+  font-size: 16px;
+}
+
+.root .input:focus {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.root .clearSearch {
+  position: absolute;
+  background-color: #fff;
+  top: 14px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  opacity: 0.5;
+}
+
+.root .clearSearch:hover {
+  opacity: 0.8;
+}
+
+.root .icon {
+  height: 30px;
+  width: 30px;
+  opacity: 0.4;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+/*# sourceMappingURL=Search.module.css.map */

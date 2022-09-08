@@ -3,11 +3,15 @@ import styles from './Search.module.scss';
 import { SearchContext } from './../../App';
 
 const Search = () => {
+  const inputRef = React.useRef()
   const { searchValue, setSearchValue } = React.useContext(SearchContext)
 
   const onClearSearch = () => {
     setSearchValue('')
+    inputRef.current.focus()
+    // document.querySelector('input').focus()
   }
+
 
   return (
     <div className={styles.root}>
@@ -41,6 +45,7 @@ const Search = () => {
         </g>
       </svg>
       <input
+        ref={inputRef}
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         className={styles.input}
