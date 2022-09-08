@@ -5,8 +5,7 @@ import Categories from '../../components/Categories';
 import Sort from '../../components/Sort';
 import PizzaBlock from '../../components/PizzaBlock';
 import Skeleton from '../../components/PizzaBlock/Skeleton';
-import { setActiveCategory } from '../../redux/slices/filterSlice';
-import {setCurrentPage} from '../../redux/slices/paginationSlice'
+import { setActiveCategory, setCurrentPage } from '../../redux/slices/filterSlice';
 import Pagination from './../Pagination';
 import { SearchContext } from './../../App';
 
@@ -14,13 +13,13 @@ import { useSelector, useDispatch } from 'react-redux'
 
 
 const Home = () => {
-  const {activeCategory, activeSortItem} = useSelector(({filter}) => ( 
+  const {activeCategory, activeSortItem, currentPage} = useSelector(({filter}) => ( 
     {
       activeCategory: filter.activeCategory, 
-      activeSortItem: filter.activeSortItem
-  } ))
+      activeSortItem: filter.activeSortItem,
+      currentPage: filter.currentPage,
+    } ))
 
-  const currentPage = useSelector(({pagination}) => pagination.currentPage)
   const dispatch = useDispatch();
 
   const {searchValue} = React.useContext(SearchContext)
@@ -56,6 +55,10 @@ const Home = () => {
   const onSelectCategory = (index) => {
     dispatch(setActiveCategory(index))
   }     
+
+  const onChangePage = (currentPage) => {
+    dispatch(setCurrentPage(currentPage))
+  }
   
   return (
     <div className="container">
@@ -76,7 +79,7 @@ const Home = () => {
 
           </div>
 
-          <Pagination onChangePage={(currentPage) => dispatch(setCurrentPage(currentPage))}/>
+          <Pagination currentPage={currentPage} onChangePage={onChangePage}/>
 
     </div>
   )
