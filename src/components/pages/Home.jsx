@@ -1,18 +1,23 @@
 import React from 'react';
 import * as axios from 'axios';
+import qs from 'qs';
 
 import Categories from '../../components/Categories';
 import Sort from '../../components/Sort';
 import PizzaBlock from '../../components/PizzaBlock';
 import Skeleton from '../../components/PizzaBlock/Skeleton';
-import { setActiveCategory, setCurrentPage } from '../../redux/slices/filterSlice';
+import { setActiveCategory, setCurrentPage, setFilters } from '../../redux/slices/filterSlice';
 import Pagination from './../Pagination';
 import { SearchContext } from './../../App';
+import { sortItems } from '../../components/Sort';
 
 import { useSelector, useDispatch } from 'react-redux'
-
+import {useNavigate} from 'react-router-dom';
 
 const Home = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const {activeCategory, activeSortItem, currentPage} = useSelector(({filter}) => ( 
     {
       activeCategory: filter.activeCategory, 
@@ -20,32 +25,57 @@ const Home = () => {
       currentPage: filter.currentPage,
     } ))
 
-  const dispatch = useDispatch();
 
   const {searchValue} = React.useContext(SearchContext)
 
   const [pizzaItems, setPizzaItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
-  //<Pagination/> STATE-------------------------------------------------------
-  // const pageCondition = activeCategory > 0 ? 1 : '';
-  // const [currentPage, setCurrentPage] = React.useState(1)
-  
+
+    // USE EFFECT 1
   React.useEffect(() => {
-    setIsLoaded(false);
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = sortItems.find(obj => obj.sortProperty === params.sortProperty);
+      dispatch(setFilters({
+        ...params,
+        sort,
+      })
+      )
+    }
+  }, [dispatch])
 
-    const category = activeCategory > 0 ? `category=${activeCategory}` : '';
-    const sortBy = activeSortItem.sortProperty.replace('-', '');
-    const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
-    const search = searchValue ? `&search=${searchValue}` : ''; 
 
-      axios.get(`https://631232c7f5cba498da8ea065.mockapi.io/pizzaItems?${category}&page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}&${search}`)
-        .then(response => {
-          setPizzaItems(response.data)
-          setIsLoaded(true);
-        })
-      window.scroll(0, 0);
-  }, [activeCategory, activeSortItem, searchValue, currentPage]);
+      // USE EFFECT 2
+      React.useEffect(() => {
+        setIsLoaded(false);
+    
+        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+        const sortBy = activeSortItem.sortProperty.replace('-', '');
+        const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
+        const search = searchValue ? `&search=${searchValue}` : ''; 
+    
+          axios.get(`https://631232c7f5cba498da8ea065.mockapi.io/pizzaItems?${category}&page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}&${search}`)
+            .then(response => {
+              setPizzaItems(response.data)
+              setIsLoaded(true);
+            })
+          window.scroll(0, 0);
+      }, [activeCategory, activeSortItem, searchValue, currentPage]);
+  
+
+    // USE EFFECT 3 
+    // здесь я взял и из данных объекта фильтрации преобраховал их в 
+    // строку с помощьюs stringify и эту строку с помощью useNavigte() запихнул в URL. 
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      activeCategory,
+      sortProperty: activeSortItem.sortProperty,
+      currentPage,
+    });
+    navigate(`?${queryString}`)
+
+  }, [activeSortItem, currentPage, activeCategory, navigate])
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
@@ -74,8 +104,8 @@ const Home = () => {
           <div className="content__items">
 
              {
-              !isLoaded ? skeleton : pizzas
-             }
+               !isLoaded ? skeleton : pizzas
+              }
 
           </div>
 
@@ -84,5 +114,4 @@ const Home = () => {
     </div>
   )
 }
-
 export default Home

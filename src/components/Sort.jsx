@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import {setActiveSortItem} from '../redux/slices/filterSlice'
 
 
-const sortItems = [
+export const sortItems = [
                     {name: 'популярности (ASC)', sortProperty: 'rating'}, 
                     {name: 'популярности (DESC)', sortProperty: '-rating'}, 
 
