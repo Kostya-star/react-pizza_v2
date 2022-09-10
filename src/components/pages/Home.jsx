@@ -14,9 +14,12 @@ import { sortItems } from '../../components/Sort';
 import { useSelector, useDispatch } from 'react-redux'
 import {useNavigate} from 'react-router-dom';
 
+
 const Home = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isSearch = React.useRef(false);
+  const isMounted = React.useRef(false);
 
   const {activeCategory, activeSortItem, currentPage} = useSelector(({filter}) => ( 
     {
@@ -31,51 +34,65 @@ const Home = () => {
   const [pizzaItems, setPizzaItems] = React.useState([]);
   const [isLoaded, setIsLoaded] = React.useState(false);
 
+  const fetchPizzas = () => {
+    setIsLoaded(false);
+    
+    const category = activeCategory > 0 ? `category=${activeCategory}` : '';
+    const sortBy = activeSortItem.sortProperty.replace('-', '');
+    const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
+    const search = searchValue ? `&search=${searchValue}` : ''; 
+
+      axios.get(`https://631232c7f5cba498da8ea065.mockapi.io/pizzaItems?${category}&page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}&${search}`)
+        .then(response => {
+          setPizzaItems(response.data)
+          setIsLoaded(true);
+        })
+  }
+
+  // USE EFFECT 3
+  // Если был первый рендер, то тогда вшиваем параметры фильтрации в URL
+  React.useEffect(() => {
+    if (isMounted.current) {
+      const queryString = qs.stringify({
+        activeCategory,
+        sortProperty: activeSortItem.sortProperty,
+        currentPage,
+      });
+      navigate(`?${queryString}`)
+    }
+    isMounted.current = true;
+  }, [activeSortItem, currentPage, activeCategory])
+
 
     // USE EFFECT 1
+    // Если был первый рендер, то проверяем URL параметры и сохраняем в редаксе
   React.useEffect(() => {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
+
       const sort = sortItems.find(obj => obj.sortProperty === params.sortProperty);
+
       dispatch(setFilters({
         ...params,
         sort,
-      })
-      )
+      }));
+      isSearch.current = true;
     }
-  }, [dispatch])
+  }, [])
 
 
       // USE EFFECT 2
+      // Если был первый рендер, то запрашиваем пиццы 
       React.useEffect(() => {
-        setIsLoaded(false);
-    
-        const category = activeCategory > 0 ? `category=${activeCategory}` : '';
-        const sortBy = activeSortItem.sortProperty.replace('-', '');
-        const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
-        const search = searchValue ? `&search=${searchValue}` : ''; 
-    
-          axios.get(`https://631232c7f5cba498da8ea065.mockapi.io/pizzaItems?${category}&page=${currentPage}&limit=4&sortBy=${sortBy}&order=${order}&${search}`)
-            .then(response => {
-              setPizzaItems(response.data)
-              setIsLoaded(true);
-            })
-          window.scroll(0, 0);
+        window.scroll(0, 0);
+
+        if (!isSearch.current) {
+          fetchPizzas();
+        }
+
+        isSearch.current = false;
       }, [activeCategory, activeSortItem, searchValue, currentPage]);
   
-
-    // USE EFFECT 3 
-    // здесь я взял и из данных объекта фильтрации преобраховал их в 
-    // строку с помощьюs stringify и эту строку с помощью useNavigte() запихнул в URL. 
-  React.useEffect(() => {
-    const queryString = qs.stringify({
-      activeCategory,
-      sortProperty: activeSortItem.sortProperty,
-      currentPage,
-    });
-    navigate(`?${queryString}`)
-
-  }, [activeSortItem, currentPage, activeCategory, navigate])
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
