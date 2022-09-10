@@ -17,6 +17,7 @@ export const sortItems = [
                   ];
 
 const Sort = () => {
+  const sortRef = React.useRef();
   const activeSortItem = useSelector(({filter}) => filter.activeSortItem);
   const dispatch = useDispatch();
 
@@ -24,11 +25,24 @@ const Sort = () => {
 
   const onClickListItem = (obj) => {
     dispatch(setActiveSortItem(obj));
-    setOpenList(!isOpenList);
+    setOpenList(false);
   }
 
+  React.useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.path.includes(sortRef.current)) {
+        setOpenList(false);
+        console.log('click outside');
+      }
+    }
+
+    document.body.addEventListener('click', handleClickOutside);
+
+    return () => document.body.removeEventListener('click', handleClickOutside);
+  }, []);
+
   return (
-    <div className="sort"> 
+    <div ref={sortRef} className="sort"> 
               <div className="sort__label">
                 <svg
                   width="10"
