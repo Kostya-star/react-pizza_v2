@@ -32,7 +32,6 @@ const Sort = () => {
     const handleClickOutside = (event) => {
       if (!event.path.includes(sortRef.current)) {
         setOpenList(false);
-        console.log('click outside');
       }
     }
 
