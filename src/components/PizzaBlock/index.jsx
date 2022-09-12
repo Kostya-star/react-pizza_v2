@@ -7,6 +7,8 @@ const typeNames = ['тонкое', 'традиционное'];
 const sizeValues = ['26см.', '30см.', '40см.']
 
 const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
+  console.log('sizes', sizes);
+  console.log('types', types);
     const dispatch = useDispatch();
 
     const addedCount = useSelector((state) => state.cart.items.find(obj => obj.id === id));
@@ -24,7 +26,7 @@ const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
         imageUrl,
         price,
         type: typeNames[activeType],
-        size: sizeValues[activeSize],
+        size: sizes[activeSize],
       }
       dispatch(addItem(item))
     }
