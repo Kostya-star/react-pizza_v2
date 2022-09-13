@@ -12,10 +12,7 @@ import NotFound from './components/pages/NotFound'
 export const SearchContext = React.createContext()
 
 const App = () => {
-  const [searchValue, setSearchValue] = React.useState('');
-
   return ( <div className="wrapper">
-      <SearchContext.Provider value={{searchValue, setSearchValue}}>
       <Header />
       <div className="content">
           <Routes>
@@ -24,7 +21,6 @@ const App = () => {
             <Route path='*' element={ <NotFound/> } />
           </Routes>
       </div>
-      </SearchContext.Provider>
       
     </div>
   );

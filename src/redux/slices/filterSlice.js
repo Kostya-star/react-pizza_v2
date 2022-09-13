@@ -7,6 +7,7 @@ const initialState = {
   },
   currentPage: 1,
   activeCategory: 0,
+  searchValue: '',
 }
 
 const filterSlice = createSlice({
@@ -15,6 +16,9 @@ const filterSlice = createSlice({
   reducers: {
     setActiveCategory(state, action) { 
       state.activeCategory = action.payload
+    },
+    setSearchValue(state, action) {
+      state.searchValue = action.payload
     },
     setActiveSortItem(state, action) {
       state.activeSortItem = action.payload
@@ -30,8 +34,9 @@ const filterSlice = createSlice({
   }
 })
 
+export const selectFilter = ({filter}) => filter;
 
-export const {setActiveCategory, setActiveSortItem, setCurrentPage, setFilters} = filterSlice.actions;
+export const {setActiveCategory, setActiveSortItem, setCurrentPage, setFilters, setSearchValue} = filterSlice.actions;
 
 export default filterSlice.reducer;
 

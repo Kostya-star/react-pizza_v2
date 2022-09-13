@@ -5,7 +5,7 @@ import Categories from '../../components/Categories';
 import Sort from '../../components/Sort';
 import PizzaBlock from '../../components/PizzaBlock';
 import Skeleton from '../../components/PizzaBlock/Skeleton';
-import { setActiveCategory, setCurrentPage, setFilters } from '../../redux/slices/filterSlice';
+import { setActiveCategory, setCurrentPage, setFilters, selectFilter } from '../../redux/slices/filterSlice';
 import Pagination from './../Pagination';
 import { SearchContext } from './../../App';
 import { sortItems } from '../../components/Sort';
@@ -23,18 +23,11 @@ const Home = () => {
     status: pizzas.status,
   }))
 
-  const {activeCategory, activeSortItem, currentPage} = useSelector(({filter}) => ( 
-    {
-      activeCategory: filter.activeCategory, 
-      activeSortItem: filter.activeSortItem,
-      currentPage: filter.currentPage,
-    } ))
+  const {activeCategory, activeSortItem, currentPage, searchValue} = useSelector(selectFilter)
 
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
   const isMounted = React.useRef(false);
-
-  const {searchValue} = React.useContext(SearchContext)
 
   const getPizzas = async() => {
     

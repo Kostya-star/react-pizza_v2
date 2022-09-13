@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 
-import {setActiveSortItem} from '../redux/slices/filterSlice'
+import {setActiveSortItem, selectFilter} from '../redux/slices/filterSlice'
 
 
 export const sortItems = [
@@ -18,7 +18,7 @@ export const sortItems = [
 
 const Sort = () => {
   const sortRef = React.useRef();
-  const activeSortItem = useSelector(({filter}) => filter.activeSortItem);
+  const {activeSortItem} = useSelector(selectFilter);
   const dispatch = useDispatch();
 
   const [isOpenList, setOpenList] = React.useState(false);
