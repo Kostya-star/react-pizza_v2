@@ -3,26 +3,27 @@ import './App.css';
 import './scss/app.scss';
 import {Routes, Route} from 'react-router-dom';
 
-import Header from './components/Header';
 import Home from './components/pages/Home'
 import Cart from './components/pages/Cart'
 import NotFound from './components/pages/NotFound'
+import FullPizza from './components/pages/FullPizza';
+import MainLayout from './scss/components/layouts/MainLayout';
 
 
 export const SearchContext = React.createContext()
 
 const App = () => {
-  return ( <div className="wrapper">
-      <Header />
-      <div className="content">
-          <Routes>
-            <Route path='/' element={ <Home /> } />
-            <Route path='/cart' element={ <Cart /> } />
-            <Route path='*' element={ <NotFound/> } />
-          </Routes>
-      </div>
+  return ( 
       
-    </div>
+          <Routes>
+            <Route path='/' element={ <MainLayout/> }>
+              <Route path='' element={ <Home/> } />
+              <Route path='cart' element={ <Cart/> } />
+              <Route path='pizzas/:id' element={ <FullPizza/> } />
+              <Route path='*' element={ <NotFound/> } />
+            </Route>
+          </Routes>
+      
   );
 }
 

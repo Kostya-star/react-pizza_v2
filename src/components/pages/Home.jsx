@@ -12,7 +12,7 @@ import { sortItems } from '../../components/Sort';
 import { fetchPizzas } from '../../redux/slices/pizzaSlice';
 
 import { useSelector, useDispatch } from 'react-redux'
-import {useNavigate} from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 
 const Home = () => {
@@ -93,7 +93,9 @@ const Home = () => {
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = pizzaItems/*.filter(obj => obj.title.toLowerCase().includes(searchValue.toLowerCase()) ? true : false)*/
-                            .map(obj => <PizzaBlock key={obj.id} {...obj} />);
+                            .map(obj => 
+                                <PizzaBlock key={obj.id} {...obj} />
+                            )
 
   const onSelectCategory = (index) => {
     dispatch(setActiveCategory(index))
