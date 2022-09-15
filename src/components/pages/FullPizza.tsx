@@ -8,8 +8,18 @@ import { addItem, selectAddedCartCountById } from '../../redux/slices/cartSlice'
 const typeNames = ['тонкое', 'традиционное'];
 
 
-const FullPizza = () => {
-  const [pizza, setPizzas] = React.useState()
+const FullPizza: React.FC = () => {
+  const [pizza, setPizzas] = React.useState<{
+    id: number,
+    title: string,
+    imageUrl: string,
+    price: number,
+    // type: string[typeNames[activeType]],
+    types: string[],
+    sizes: number[],
+  }>()
+
+  
   const {id} = useParams()
   const navigate = useNavigate()
   
@@ -37,20 +47,23 @@ const FullPizza = () => {
   }, [])  
 
   const onClickAdd = () => {
-    const item = {
-      id: pizza.id,
-      title: pizza.title,
-      imageUrl: pizza.imageUrl,
-      price: pizza.price,
-      type: typeNames[activeType],
-      size: pizza.sizes[activeSize],
+    if (pizza) {
+      const item = {
+        id: pizza.id,
+        title: pizza.title,
+        imageUrl: pizza.imageUrl,
+        price: pizza.price,
+        type: typeNames[activeType],
+        size: pizza.sizes[activeSize],
+      }
+      dispatch(addItem(item))
+
     }
-    dispatch(addItem(item))
   }
 
 
   if (!pizza) {
-    return 'Loading......'
+    return <>'Loading......'</>
   }
 
 return (<div>
@@ -107,7 +120,7 @@ return (<div>
         </div>
   </div>
             <div className="container cart__bottom-buttons">
-                <Link to='/' href="/" className="button button--outline button--add go-back-btn">
+                <Link to='/' className="button button--outline button--add go-back-btn">
                   <svg
                     width="8"
                     height="14"

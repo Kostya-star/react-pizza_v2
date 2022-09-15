@@ -1,14 +1,13 @@
 import React from 'react';
 import qs from 'qs';
 
-import Categories from '../../components/Categories';
-import Sort from '../../components/Sort';
-import PizzaBlock from '../../components/PizzaBlock';
-import Skeleton from '../../components/PizzaBlock/Skeleton';
+import Categories from '../Categories';
+import Sort from '../Sort';
+import PizzaBlock from '../PizzaBlock';
+import Skeleton from '../PizzaBlock/Skeleton';
 import { setActiveCategory, setCurrentPage, setFilters, selectFilter } from '../../redux/slices/filterSlice';
-import Pagination from './../Pagination';
-import { SearchContext } from './../../App';
-import { sortItems } from '../../components/Sort';
+import Pagination from '../Pagination';
+import { sortItems } from '../Sort';
 import { fetchPizzas } from '../../redux/slices/pizzaSlice';
 
 import { useSelector, useDispatch } from 'react-redux'
