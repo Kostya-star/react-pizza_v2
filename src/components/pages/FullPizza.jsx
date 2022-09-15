@@ -50,7 +50,7 @@ const FullPizza = () => {
 
 
   if (!pizza) {
-    return 'Loading...'
+    return 'Loading......'
   }
 
 return (<div>
