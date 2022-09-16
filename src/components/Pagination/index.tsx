@@ -9,7 +9,7 @@ type PaginationProps = {
   onChangePage: any;
 }
 
-const Pagination: React.FC = ( {onChangePage, currentPage}: PaginationProps ) => {
+const Pagination: React.FC<PaginationProps> = ( {onChangePage, currentPage} ) => {
 
   return (
     <ReactPaginate
@@ -21,7 +21,6 @@ const Pagination: React.FC = ( {onChangePage, currentPage}: PaginationProps ) =>
       pageRangeDisplayed={4}
       pageCount={3}
       forcePage={currentPage - 1} 
-      renderOnZeroPageCount={null}
     />
   );
 

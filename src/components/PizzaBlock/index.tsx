@@ -5,9 +5,17 @@ import { addItem, selectAddedCartCountById } from '../../redux/slices/cartSlice'
 import { Link } from 'react-router-dom';
 
 const typeNames = ['тонкое', 'традиционное'];
-const sizeValues = ['26см.', '30см.', '40см.']
 
-const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  imageUrl: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+}
+
+const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, imageUrl, price, sizes, types}) => {
     const dispatch = useDispatch();
 
     const addedCount = useSelector(selectAddedCartCountById(id));
@@ -25,7 +33,7 @@ const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
         imageUrl,
         price,
         type: typeNames[activeType],
-        size: sizes[activeSize],
+        sizes: [activeSize],
       }
       dispatch(addItem(item))
     }
@@ -46,7 +54,7 @@ const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
               <div className="pizza-block__selector">
                 <ul>
                   {
-                    types.map((typeId, index) => <li
+                    types.map((typeId: number, index: number) => <li
                                                     className={activeType === index ? 'active' : ''} 
                                                     key={typeId}
                                                     onClick={() => setActiveType(index)}> {typeNames[index]} </li>)
@@ -55,7 +63,7 @@ const PizzaBlock = ({id, title, imageUrl, price, sizes, types}) => {
                 <ul>
                   
                   {
-                    sizes.map((size, index) => <li 
+                    sizes.map((size: number, index: number) => <li 
                                                     className={activeSize === index ? 'active' : ''}
                                                     onClick={() => setActiveSize(index)}
                                                     key={index}

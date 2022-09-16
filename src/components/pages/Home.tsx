@@ -17,9 +17,9 @@ import { useNavigate, Link } from 'react-router-dom';
 const Home = () => {
   const dispatch = useDispatch();
   
-  const {pizzaItems, status} = useSelector(({pizzas}) => ({
-    pizzaItems: pizzas.items,
-    status: pizzas.status,
+  const {pizzaItems, status} = useSelector((state: any) => ({
+    pizzaItems: state.pizzas.items,
+    status: state.pizzas.status,
   }))
 
   const {activeCategory, activeSortItem, currentPage, searchValue} = useSelector(selectFilter)
@@ -35,7 +35,9 @@ const Home = () => {
     const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
     const search = searchValue ? `&search=${searchValue}` : ''; 
 
-    dispatch(fetchPizzas({
+    dispatch(
+      // @ts-ignore
+      fetchPizzas({
       category,
       sortBy,
       order,
@@ -92,15 +94,15 @@ const Home = () => {
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
 
   const pizzas = pizzaItems/*.filter(obj => obj.title.toLowerCase().includes(searchValue.toLowerCase()) ? true : false)*/
-                            .map(obj => 
+                            .map((obj: any) => 
                                 <PizzaBlock key={obj.id} {...obj} />
                             )
 
-  const onSelectCategory = (index) => {
+  const onSelectCategory = (index: number) => {
     dispatch(setActiveCategory(index))
   }     
 
-  const onChangePage = (currentPage) => {
+  const onChangePage = (currentPage: number) => {
     dispatch(setCurrentPage(currentPage))
   }
   

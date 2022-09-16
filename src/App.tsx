@@ -7,7 +7,7 @@ import Home from './components/pages/Home'
 import Cart from './components/pages/Cart'
 import NotFound from './components/pages/NotFound'
 import FullPizza from './components/pages/FullPizza';
-import MainLayout from './components/layouts/MainLayout.jsx';
+import MainLayout from './components/layouts/MainLayout';
 
 
 const App = () => {

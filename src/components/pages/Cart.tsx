@@ -6,15 +6,22 @@ import { clearItems } from '../../redux/slices/cartSlice';
 import EmptyCart from '../EmptyCart';
 
 
-const Cart = () => {
-  let {pizzas, totalCount, totalPrice} = useSelector(({cart}) => ({
-    pizzas: cart.items,
-    totalCount: cart.items.count,
-    totalPrice: cart.totalPrice,
+// type CartUseSelector = {
+//   totalPrice: number;
+//   items: any
+// }
+
+const Cart: React.FC = () => {
+  let {pizzas, totalCount, totalPrice} = useSelector((state: any) => ({
+    pizzas: state.cart.items,
+    totalCount: state.cart.items.count,
+    totalPrice: state.cart.totalPrice,
   }))
+  
+
   const dispatch = useDispatch();
 
-  totalCount = pizzas.reduce((sum, pizzas) => sum + pizzas.count , 0)
+  totalCount = pizzas.reduce((sum: number, pizzas: any) => sum + pizzas.count , 0)
 
   const onClearItems = () => {
     window.confirm('u really wanna clear the cart?') && dispatch(clearItems())
@@ -103,7 +110,7 @@ const Cart = () => {
             </div>
 
               {
-                pizzas && pizzas.map(pizza => (
+                pizzas && pizzas.map((pizza:any) => (
                   <CartItem 
                     {...pizza}
                     key={pizza.id}/>
@@ -123,7 +130,6 @@ const Cart = () => {
               </div>
               <div className="cart__bottom-buttons">
                 <Link to='/'
-                  href="/"
                   className="button button--outline button--add go-back-btn"
                 >
                   <svg
