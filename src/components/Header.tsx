@@ -6,11 +6,11 @@ import { useSelector } from 'react-redux';
 
 import { selectCart } from '../redux/slices/cartSlice';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
   const location = useLocation();
 
-  const totalCount = items.reduce((sum, obj) => obj.count + sum, 0);
+  const totalCount = items.reduce((sum: number, obj: {count: number}) => obj.count + sum, 0);
 
   return (
     <div className="header">

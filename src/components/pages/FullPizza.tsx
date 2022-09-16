@@ -7,14 +7,12 @@ import { addItem, selectAddedCartCountById } from '../../redux/slices/cartSlice'
 
 const typeNames = ['тонкое', 'традиционное'];
 
-
 const FullPizza: React.FC = () => {
   const [pizza, setPizzas] = React.useState<{
     id: number,
     title: string,
     imageUrl: string,
     price: number,
-    // type: string[typeNames[activeType]],
     types: string[],
     sizes: number[],
   }>()
@@ -27,9 +25,10 @@ const FullPizza: React.FC = () => {
   const [activeSize, setActiveSize] = React.useState(0)
   
   const addedCount = useSelector(selectAddedCartCountById(id));
+  const addedCartCount = addedCount ? addedCount.count : 0;
+  
   const dispatch = useDispatch()
 
-  const addedCartCount = addedCount ? addedCount.count : 0;
 
   React.useEffect(() => {
     async function getPizzas() {
@@ -53,7 +52,6 @@ const FullPizza: React.FC = () => {
         title: pizza.title,
         imageUrl: pizza.imageUrl,
         price: pizza.price,
-        type: typeNames[activeType],
         size: pizza.sizes[activeSize],
       }
       dispatch(addItem(item))
