@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, selectAddedCartCountById } from '../../redux/slices/cartSlice';
+import { addItem } from '../../redux/slices/cartSlice';
+import { RootState } from '../../redux/store';
 
 
 const typeNames = ['тонкое', 'традиционное'];
@@ -24,7 +25,9 @@ const FullPizza: React.FC = () => {
   const [activeType, setActiveType] = React.useState(0);
   const [activeSize, setActiveSize] = React.useState(0)
   
-  const addedCount = useSelector(selectAddedCartCountById(id));
+  // const addedCount = useSelector(selectAddedCartCountById(id));
+  const addedCount = useSelector((cart: RootState['cart']) => cart.items.find((obj) => obj.id === id));
+
   const addedCartCount = addedCount ? addedCount.count : 0;
   
   const dispatch = useDispatch()

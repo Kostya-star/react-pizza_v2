@@ -1,8 +1,11 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addItem, selectAddedCartCountById } from '../../redux/slices/cartSlice';
+import { addItem, CartItem} from '../../redux/slices/cartSlice';
 import { Link } from 'react-router-dom';
+
+import { RootState } from '../../redux/store';
+
 
 const typeNames = ['тонкое', 'традиционное'];
 
@@ -12,13 +15,14 @@ type PizzaBlockProps = {
   imageUrl: string;
   price: number;
   sizes: number[];
-  types: number[];
+  types: string[];
+  count: number;
 }
 
 const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, imageUrl, price, sizes, types}) => {
     const dispatch = useDispatch();
 
-    const addedCount = useSelector(selectAddedCartCountById(id));
+    const addedCount = useSelector((cart: RootState['cart']) => cart.items.find((obj) => obj.id === id));
     const addedCartCount = addedCount ? addedCount.count : 0;
 
     const [activeType, setActiveType] = React.useState(0);
@@ -27,13 +31,14 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, imageUrl, price, size
     const [activeSize, setActiveSize] = React.useState(0)
 
     const onClickAdd = () => {
-      const item = {
+      const item: CartItem = {
         id,
         title,
         imageUrl,
         price,
-        type: typeNames[activeType],
+        type:  typeNames[activeType],
         sizes: [activeSize],
+        count: 0,
       }
       dispatch(addItem(item))
     }
@@ -54,7 +59,7 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, imageUrl, price, size
               <div className="pizza-block__selector">
                 <ul>
                   {
-                    types.map((typeId: number, index: number) => <li
+                    types.map((typeId: string, index: number) => <li
                                                     className={activeType === index ? 'active' : ''} 
                                                     key={typeId}
                                                     onClick={() => setActiveType(index)}> {typeNames[index]} </li>)
