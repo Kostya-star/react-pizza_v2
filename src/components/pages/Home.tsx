@@ -111,7 +111,7 @@ const Home = () => {
           <div className="content__top">
 
             <Categories activeCategory={activeCategory} 
-                        setActiveCategory={onSelectCategory}/>
+                        setActiveCategory={onSelectCategory} />
 
             <Sort />
 
