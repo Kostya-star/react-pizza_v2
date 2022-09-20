@@ -22,7 +22,7 @@ type PizzaBlockProps = {
 const PizzaBlock: React.FC<PizzaBlockProps> = ({id, title, imageUrl, price, sizes, types}) => {
     const dispatch = useDispatch();
 
-    const addedCount = useSelector((cart: RootState['cart']) => cart.items.find((obj) => obj.id === id));
+    const addedCount = useSelector((state: RootState) => state.cart.items.find((obj) => obj.id === id));
     const addedCartCount = addedCount ? addedCount.count : 0;
 
     const [activeType, setActiveType] = React.useState(0);

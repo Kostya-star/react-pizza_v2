@@ -49,36 +49,36 @@ const Home = () => {
 
   // USE EFFECT 3
   // Если был первый рендер, то тогда вшиваем параметры фильтрации в URL
-  React.useEffect(() => {
-    if (isMounted.current) {
-      const queryString = qs.stringify({
-        activeCategory,
-        sortProperty: sort.sortProperty,
-        currentPage,
-      });
-      navigate(`?${queryString}`)
-    }
-    isMounted.current = true;
-  }, [sort, currentPage, activeCategory])
+  // React.useEffect(() => {
+  //   if (isMounted.current) {
+  //     const queryString = qs.stringify({
+  //       activeCategory,
+  //       sortProperty: sort.sortProperty,
+  //       currentPage,
+  //     });
+  //     navigate(`?${queryString}`)
+  //   }
+  //   isMounted.current = true;
+  // }, [sort, currentPage, activeCategory])
 
 
     // USE EFFECT 1
     // Если был первый рендер, то проверяем URL параметры и сохраняем в редаксе
-  React.useEffect(() => {
-    if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1)) as unknown as PizzasParams;
+  // React.useEffect(() => {
+  //   if (window.location.search) {
+  //     const params = qs.parse(window.location.search.substring(1)) as unknown as PizzasParams;
 
-      const sort = sortItems.find(obj => obj.sortProperty === params.sortBy);
+  //     const sort = sortItems.find(obj => obj.sortProperty === params.sortBy);
 
-      dispatch(setFilters({
-        sort: sort || sortItems[0],
-        currentPage: Number(params.currentPage),
-        activeCategory: Number(params.category),
-        searchValue: params.search,
-      }));
-      isSearch.current = true;
-    }
-  }, [])
+  //     dispatch(setFilters({
+  //       sort: sort || sortItems[0],
+  //       currentPage: Number(params.currentPage),
+  //       activeCategory: Number(params.category),
+  //       searchValue: params.search,
+  //     }));
+  //     isSearch.current = true;
+  //   }
+  // }, [])
 
 
       // USE EFFECT 2

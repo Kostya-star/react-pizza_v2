@@ -26,7 +26,7 @@ export interface FilterSliceState {
 const initialState: FilterSliceState = {
   sort: {
     name: 'популярности', 
-    sortProperty: SortPropertyEnum.RATING_DESC,
+    sortProperty: SortPropertyEnum.RATING_ASC,
   },
   currentPage: 1,
   activeCategory: 0,
@@ -66,7 +66,7 @@ const filterSlice = createSlice({
   }
 })
 
-export const selectFilter = (filter: RootState["filter"]) => filter;
+export const selectFilter = (state: RootState) => state.filter;
 
 export const {setActiveCategory, setSort, setCurrentPage, setFilters, setSearchValue} = filterSlice.actions;
 

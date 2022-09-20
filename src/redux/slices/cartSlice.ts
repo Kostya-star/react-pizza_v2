@@ -13,7 +13,7 @@ export type CartItem = {
 
 interface CartSliceState {
   totalPrice: number,
-  items: CartItem[]
+  items: CartItem[],
 }
 
 const initialState: CartSliceState = {
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
   }
 })
 
-export const selectCart = (cart: RootState['cart']) => cart
+export const selectCart = (state: RootState) => state.cart;
 // export const selectAddedCartCountById = (id: string) => (cart: RootState['cart']) => cart.items.find((obj) => obj.id === id)
 
 

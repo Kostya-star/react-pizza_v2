@@ -10,14 +10,14 @@ const typeNames = ['тонкое', 'традиционное'];
 
 const FullPizza: React.FC = () => {
   const [pizza, setPizzas] = React.useState<{
-    id: string,
-    title: string,
-    imageUrl: string,
-    price: number,
-    types: string[],
-    sizes: number[],
-    count: number;
-    }>()
+  id: string,
+  title: string,
+  imageUrl: string,
+  price: number,
+  types: string[],
+  sizes: number[],
+  count: number;
+}>()
 
   
   const {id} = useParams()
