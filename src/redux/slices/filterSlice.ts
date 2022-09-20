@@ -2,14 +2,22 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {RootState} from '../store';
 
 
-type Sort = {
-  name: string; 
-  sortProperty: 'rating'| 'price' | 'title' | '-rating'| '-price' | '-title';
+export enum SortPropertyEnum {
+  RATING_ASC = 'rating',
+  PRICE_ASC = 'price',
+  TITLE_ASC = 'title',
+  RATING_DESC = '-rating',
+  PRICE_DESC = '-price',
+  TITLE_DESC = '-title',
 }
 
-interface FilterSliceState {
+export type Sort = {
+  name: string; 
+  sortProperty: SortPropertyEnum;
+}
+
+export interface FilterSliceState {
   sort: Sort;
-  activeSortItem: Sort;
   currentPage: number;
   activeCategory: number;
   searchValue: string;
@@ -18,11 +26,7 @@ interface FilterSliceState {
 const initialState: FilterSliceState = {
   sort: {
     name: 'популярности', 
-    sortProperty: 'rating',
-  },
-  activeSortItem: {
-    name: 'популярности', 
-    sortProperty: 'rating',
+    sortProperty: SortPropertyEnum.RATING_DESC,
   },
   currentPage: 1,
   activeCategory: 0,
@@ -39,8 +43,8 @@ const filterSlice = createSlice({
     setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload
     },
-    setActiveSortItem(state, action: PayloadAction<Sort>) {
-      state.activeSortItem = action.payload
+    setSort(state, action: PayloadAction<Sort>) {
+      state.sort = action.payload
     }, 
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload
@@ -55,7 +59,7 @@ const filterSlice = createSlice({
         state.activeCategory = 0;
         state.sort = {
           name: 'популярности',
-          sortProperty: 'rating',
+          sortProperty: SortPropertyEnum.RATING_DESC,
         }
       }
     },
@@ -64,7 +68,7 @@ const filterSlice = createSlice({
 
 export const selectFilter = (filter: RootState["filter"]) => filter;
 
-export const {setActiveCategory, setActiveSortItem, setCurrentPage, setFilters, setSearchValue} = filterSlice.actions;
+export const {setActiveCategory, setSort, setCurrentPage, setFilters, setSearchValue} = filterSlice.actions;
 
 export default filterSlice.reducer;
 

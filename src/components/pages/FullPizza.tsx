@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem } from '../../redux/slices/cartSlice';
+import { addItem, CartItem } from '../../redux/slices/cartSlice';
 import { RootState } from '../../redux/store';
 
 
@@ -10,13 +10,14 @@ const typeNames = ['тонкое', 'традиционное'];
 
 const FullPizza: React.FC = () => {
   const [pizza, setPizzas] = React.useState<{
-    id: number,
+    id: string,
     title: string,
     imageUrl: string,
     price: number,
     types: string[],
     sizes: number[],
-  }>()
+    count: number;
+    }>()
 
   
   const {id} = useParams()
@@ -55,9 +56,11 @@ const FullPizza: React.FC = () => {
         title: pizza.title,
         imageUrl: pizza.imageUrl,
         price: pizza.price,
-        size: pizza.sizes[activeSize],
+        sizes: pizza.sizes,
+        type: String(pizza.types),
+        count: pizza.count,
       }
-      dispatch(addItem(item))
+      dispatch(addItem(item) )
 
     }
   }

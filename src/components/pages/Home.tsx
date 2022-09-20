@@ -8,21 +8,23 @@ import Skeleton from '../PizzaBlock/Skeleton';
 import { setActiveCategory, setCurrentPage, setFilters, selectFilter } from '../../redux/slices/filterSlice';
 import Pagination from '../Pagination';
 import { sortItems } from '../Sort';
-import { fetchPizzas } from '../../redux/slices/pizzaSlice';
+import { fetchPizzas, PizzasParams } from '../../redux/slices/pizzaSlice';
 
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate, Link } from 'react-router-dom';
+import { useAppDispatch } from './../../redux/store';
+import { FilterSliceState } from './../../redux/slices/filterSlice';
 
 
 const Home = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   
   const {pizzaItems, status} = useSelector((state: any) => ({
     pizzaItems: state.pizzas.items,
     status: state.pizzas.status,
   }))
 
-  const {activeCategory, activeSortItem, currentPage, searchValue} = useSelector(selectFilter)
+  const {activeCategory, sort, currentPage, searchValue} = useSelector(selectFilter)
 
   const navigate = useNavigate();
   const isSearch = React.useRef(false);
@@ -31,18 +33,17 @@ const Home = () => {
   const getPizzas = async() => {
     
     const category = activeCategory > 0 ? `category=${activeCategory}` : '';
-    const sortBy = activeSortItem.sortProperty.replace('-', '');
-    const order = activeSortItem.sortProperty.includes('-') ? 'desc' : 'asc';
+    const sortBy = sort.sortProperty.replace('-', '');
+    const order = sort.sortProperty.includes('-') ? 'desc' : 'asc';
     const search = searchValue ? `&search=${searchValue}` : ''; 
 
     dispatch(
-      // @ts-ignore
       fetchPizzas({
-      category,
-      sortBy,
-      order,
-      search,
-      currentPage,
+        category,
+        sortBy,
+        order,
+        search,
+        currentPage: String(currentPage),
     }))
   }
 
@@ -52,26 +53,28 @@ const Home = () => {
     if (isMounted.current) {
       const queryString = qs.stringify({
         activeCategory,
-        sortProperty: activeSortItem.sortProperty,
+        sortProperty: sort.sortProperty,
         currentPage,
       });
       navigate(`?${queryString}`)
     }
     isMounted.current = true;
-  }, [activeSortItem, currentPage, activeCategory])
+  }, [sort, currentPage, activeCategory])
 
 
     // USE EFFECT 1
     // Если был первый рендер, то проверяем URL параметры и сохраняем в редаксе
   React.useEffect(() => {
     if (window.location.search) {
-      const params = qs.parse(window.location.search.substring(1));
+      const params = qs.parse(window.location.search.substring(1)) as unknown as PizzasParams;
 
-      const sort = sortItems.find(obj => obj.sortProperty === params.sortProperty);
+      const sort = sortItems.find(obj => obj.sortProperty === params.sortBy);
 
       dispatch(setFilters({
-        ...params,
-        sort,
+        sort: sort || sortItems[0],
+        currentPage: Number(params.currentPage),
+        activeCategory: Number(params.category),
+        searchValue: params.search,
       }));
       isSearch.current = true;
     }
@@ -88,7 +91,7 @@ const Home = () => {
         }
 
         isSearch.current = false;
-      }, [activeCategory, activeSortItem, searchValue, currentPage]);
+      }, [activeCategory, sort, searchValue, currentPage]);
   
 
   const skeleton = [...new Array(6)].map((_, index) => <Skeleton key={index} />);
