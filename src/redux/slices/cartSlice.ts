@@ -13,7 +13,7 @@ export type CartItem = {
 
 interface CartSliceState {
   totalPrice: number,
-  items: CartItem[],
+  items: CartItem[]
 }
 
 const initialState: CartSliceState = {
