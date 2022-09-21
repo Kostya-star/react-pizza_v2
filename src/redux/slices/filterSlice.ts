@@ -66,7 +66,7 @@ const filterSlice = createSlice({
   }
 })
 
-export const selectFilter = (state: RootState) => state.filter;
+export const selectFilter = ({filter}: RootState) => filter;
 
 export const {setActiveCategory, setSort, setCurrentPage, setFilters, setSearchValue} = filterSlice.actions;
 

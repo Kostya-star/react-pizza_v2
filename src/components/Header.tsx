@@ -25,7 +25,7 @@ const Header: React.FC = () => {
           </div>
         </Link>
 
-        <Search />
+        {location.pathname !== '/cart' && <Search />}
 
         {location.pathname !== '/cart' && (
           <div className="header__cart">

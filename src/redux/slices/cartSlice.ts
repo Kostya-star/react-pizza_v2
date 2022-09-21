@@ -58,7 +58,7 @@ const cartSlice = createSlice({
     },
     decreaseItemsAmount(state, action: PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload)
-      if (findItem && findItem.count > 0 ) {
+      if (findItem) {
         findItem.count--;
       }
       state.totalPrice = state.items.reduce((sum, obj) => sum + (obj.price * obj.count), 0)
@@ -66,7 +66,7 @@ const cartSlice = createSlice({
   }
 })
 
-export const selectCart = (state: RootState) => state.cart;
+export const selectCart = ({cart}: RootState) => cart;
 // export const selectAddedCartCountById = (id: string) => (cart: RootState['cart']) => cart.items.find((obj) => obj.id === id)
 
 

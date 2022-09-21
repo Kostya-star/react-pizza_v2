@@ -204,6 +204,23 @@ body {
             display: none;
           }
         }
+        &:disabled {
+          opacity: 0.5;
+          border-color: #888584;
+
+          &:active {
+            transform: none;
+          }
+          &:hover {
+            background-color: transparent;
+            svg path {
+              fill: #888584
+            }
+          }
+          svg path {
+            fill: #888584
+          }
+        }
       }
 
       b {
