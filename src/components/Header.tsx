@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import pizzaLogo from '../assets/img/pizza-logo.svg';
 import { Link, useLocation } from 'react-router-dom';
 import Search from './Search/index';
@@ -21,6 +21,7 @@ const Header: React.FC = () => {
 
     isMounted.current = true;
   }, [items])
+
 
   return (
     <div className="header">
