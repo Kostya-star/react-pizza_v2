@@ -1,6 +1,6 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { increaseItemsAmount, decreaseItemsAmount, removeItem } from '../redux/slices/cartSlice';
+import { useDispatch } from 'react-redux';
+import { increaseItemsAmount, decreaseItemsAmount, removeItem } from '../redux/slices/cart/slice';
 
 import clsx from 'clsx';
 

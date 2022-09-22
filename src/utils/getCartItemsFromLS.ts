@@ -1,3 +1,4 @@
+import { CartItem } from '../redux/slices/cart/types';
 import { getTotalPrice } from './getTotalPrice';
 
 
@@ -7,7 +8,7 @@ export const getCartItemsFromLS = () => {
   const totalPrice = getTotalPrice(items)
 
     return {
-      items,
+      items: items as CartItem[],
       totalPrice,
     }
 }

@@ -3,17 +3,13 @@ import pizzaLogo from '../assets/img/pizza-logo.svg';
 import { Link, useLocation } from 'react-router-dom';
 import Search from './Search/index';
 import { useSelector } from 'react-redux';
+import { selectCart } from '../redux/slices/cart/selectors';
 
-import { selectCart } from '../redux/slices/cartSlice';
 
 const Header: React.FC = () => {
   const { totalPrice, items } = useSelector(selectCart);
   const isMounted = React.useRef(false);
 
-  console.log('totalPrice', totalPrice);
-  console.log('items', items);
-  
-  
   const location = useLocation();
   const totalCount = items.reduce((sum: number, obj: {count: number}) => obj.count + sum, 0);
 

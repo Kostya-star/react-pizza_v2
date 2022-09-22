@@ -1,8 +1,9 @@
 import React from 'react';
 import axios from 'axios';
-import { useParams, Link, Navigate, useNavigate } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, CartItem } from '../../redux/slices/cartSlice';
+import { addItem } from '../..//redux/slices/cart/slice';
+import { selectAddedCartCountById } from '../../redux/slices/cart/selectors';
 import { RootState } from '../../redux/store';
 
 
@@ -20,14 +21,14 @@ const FullPizza: React.FC = () => {
 }>()
 
   
-  const {id} = useParams()
-  const navigate = useNavigate()
-  
-  const [activeType, setActiveType] = React.useState(0);
-  const [activeSize, setActiveSize] = React.useState(0)
-  
-  // const addedCount = useSelector(selectAddedCartCountById(id));
-  const addedCount = useSelector((cart: RootState['cart']) => cart.items.find((obj) => obj.id === id));
+const navigate = useNavigate()
+
+const {id} = useParams()
+const [activeType, setActiveType] = React.useState(0);
+const [activeSize, setActiveSize] = React.useState(0)
+
+// const addedCount = useSelector(selectAddedCartCountById(id));
+const addedCount = useSelector(({cart}: RootState) => cart.items.find((obj) => obj.id === id));
 
   const addedCartCount = addedCount ? addedCount.count : 0;
   
